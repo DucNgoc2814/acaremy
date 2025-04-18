@@ -80,7 +80,7 @@
         </div>
         
         <div class="text-center mt-6">
-          <router-link to="/courses" class="inline-block px-4 py-1.5 bg-indigo-600 text-white hover:bg-indigo-700 rounded-md text-xs font-medium shadow-md transition-colors">
+          <router-link to="/courses" class="inline-block px-4 py-1.5 bg-indigo-700 text-white hover:bg-indigo-700 rounded-md text-xs font-medium shadow-md transition-colors">
             Xem tất cả khóa học
           </router-link>
         </div>
@@ -108,7 +108,7 @@
         </div>
         
         <div class="text-center mt-6">
-          <router-link to="/products" class="inline-block px-4 py-2 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700 transition-colors">
+          <router-link to="/products" class="inline-block px-4 py-1.5 bg-indigo-700 text-white hover:bg-indigo-700 rounded-md text-xs font-medium shadow-md transition-colors">
             Xem tất cả sản phẩm
           </router-link>
         </div>
@@ -192,11 +192,185 @@
       </div>
     </section>
   </div>
+  
+  <!-- Purchase Modal -->
+  <div v-if="showPurchaseModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+      <!-- Header with close button -->
+      <div class="flex items-center justify-between p-4 rounded-t bg-gradient-to-r from-blue-600 to-blue-400 text-white">
+        <h3 class="text-xl font-semibold">{{ selectedCourse.title }}</h3>
+        <button @click="showPurchaseModal = false" type="button" class="text-white bg-transparent hover:bg-blue-700 rounded-full text-sm p-1.5 ml-auto inline-flex items-center">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+      
+      <p class="text-sm text-gray-600 px-6 pt-4">{{ selectedCourse.description || 'Xây dựng ứng dụng Vue.js với framework Nuxt.js để tối ưu SEO và hiệu suất.' }}</p>
+      
+      <div class="md:flex">
+        <!-- Course Info -->
+        <div class="md:w-1/2 p-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Thông tin khóa học</h3>
+          
+          <div class="space-y-5">
+            <!-- Thời lượng -->
+            <div class="flex items-center">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">Thời lượng</p>
+                <p class="text-sm text-gray-600">{{ selectedCourse.duration || '10' }} giờ giờ học</p>
+              </div>
+            </div>
+            
+            <!-- Cấp độ -->
+            <div class="flex items-center">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">Cấp độ</p>
+                <p class="text-sm text-gray-600">{{ selectedCourse.level || 'Trung cấp' }}</p>
+              </div>
+            </div>
+            
+            <!-- Ngôn ngữ -->
+            <div class="flex items-center">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">Ngôn ngữ</p>
+                <p class="text-sm text-gray-600">Tiếng Việt</p>
+              </div>
+            </div>
+            
+            <!-- Học viên -->
+            <div class="flex items-center">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">Học viên</p>
+                <p class="text-sm text-gray-600">người đã đăng ký</p>
+              </div>
+            </div>
+            
+            <!-- Chứng chỉ -->
+            <div class="flex items-center">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">Chứng chỉ</p>
+                <p class="text-sm text-gray-600">Có chứng chỉ hoàn thành</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Payment Info -->
+        <div class="md:w-1/2 p-6 border-l border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Thanh toán</h3>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Giá khóa học:</span>
+              <span class="font-medium text-gray-900">{{ formatCurrency(selectedCourse.price) }}</span>
+            </div>
+            
+            <div class="flex justify-between">
+              <span class="text-gray-600">Thuế VAT (10%):</span>
+              <span class="font-medium text-gray-900">{{ formatCurrency(selectedCourse.price * 0.1) }}</span>
+            </div>
+            
+            <div class="flex justify-between pt-3 border-t border-gray-200 mb-4">
+              <span class="font-medium text-gray-900">Tổng thanh toán:</span>
+              <span class="font-bold text-blue-600">{{ formatCurrency(selectedCourse.price * 1.1) }}</span>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-md mb-4">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Số dư ví:</span>
+                <span class="font-medium text-blue-600">{{ formatCurrency(walletBalance) }}</span>
+              </div>
+              
+              <div class="flex justify-between mt-2">
+                <span class="text-gray-600">Số dư còn lại:</span>
+                <span class="font-medium" :class="{'text-red-600': walletBalance < selectedCourse.price * 1.1, 'text-green-600': walletBalance >= selectedCourse.price * 1.1}">
+                  {{ formatCurrency(walletBalance - (selectedCourse.price * 1.1)) }}
+                </span>
+              </div>
+            </div>
+            
+            <!-- Warning if insufficient balance -->
+            <div v-if="walletBalance < selectedCourse.price * 1.1" class="bg-red-50 border border-red-100 rounded-md p-3 flex items-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <p class="text-sm text-red-700">Số dư không đủ để thanh toán. Vui lòng nạp thêm tiền.</p>
+            </div>
+            
+            <div class="pt-2">
+              <h4 class="text-sm font-medium text-gray-900 mb-2">Bạn sẽ nhận được:</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center text-sm text-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Truy cập trọn đời vào khóa học
+                </li>
+                <li class="flex items-center text-sm text-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Chứng chỉ hoàn thành
+                </li>
+                <li class="flex items-center text-sm text-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Hỗ trợ kỹ thuật 24/7
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="flex space-x-3 pt-4 mt-4">
+            <button @click="showPurchaseModal = false" class="w-1/3 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
+              Hủy
+            </button>
+            <button 
+              @click="confirmPurchase" 
+              type="button"
+              class="w-2/3 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors cursor-pointer"
+              :disabled="walletBalance < (selectedCourse.price * 1.1)"
+              :class="{'opacity-50 cursor-not-allowed': walletBalance < (selectedCourse.price * 1.1)}"
+            >
+              Thanh toán ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useWalletStore } from '../stores/wallet';
+import { showSuccess, showError, initSweetAlert } from '../utils/alert';
+import toastService from '../services/toastService';
 import { useCartStore } from '../stores/cart';
 import CourseCard from '../components/CourseCard.vue';
 import ProductCard from '../components/ProductCard.vue';
@@ -209,7 +383,11 @@ const walletBalance = computed(() => walletStore.balance);
 
 // Course data
 const allCourses = ref(coursesData);
-const displayedCourses = computed(() => allCourses.value.slice(0, 6));
+const displayedCourses = computed(() => {
+  return allCourses.value
+    .filter(course => !purchasedCourseIds.value.includes(course.id))
+    .slice(0, 6);
+});
 const purchasedCourseIds = ref([]);
 
 // Product data
@@ -218,6 +396,7 @@ const products = ref(productsData);
 // Featured courses (limit to 6)
 const featuredCourses = computed(() => {
   return allCourses.value
+    .filter(course => !purchasedCourseIds.value.includes(course.id))
     .sort((a, b) => b.salesCount - a.salesCount)
     .slice(0, 6);
 });
@@ -243,14 +422,26 @@ const handleBuyNow = (course) => {
 // Add product to cart
 const addToCart = (product) => {
   cartStore.addToCart(product);
-  // Show a notification
-  alert(`Đã thêm "${product.title}" vào giỏ hàng!`);
+  
+  // Show a beautiful toast notification instead of alert
+  toastService.showCartNotification(
+    `Đã thêm "${product.title}" vào giỏ hàng!`,
+    'Giỏ hàng đã cập nhật',
+    {
+      duration: 3000,
+      showProgressBar: true
+    }
+  );
 };
 
 // Confirm purchase
 const confirmPurchase = () => {
-  if (walletBalance.value < selectedCourse.value.price) {
-    alert('Số dư không đủ để mua khóa học này!');
+  if (!selectedCourse.value) return;
+  
+  const totalPrice = Math.round(selectedCourse.value.price * 1.1); // Including VAT, rounded to avoid floating point issues
+  
+  if (walletBalance.value < totalPrice) {
+    showError('Số dư không đủ để mua khóa học này!', 'Không đủ số dư');
     return;
   }
   
@@ -260,13 +451,32 @@ const confirmPurchase = () => {
   // Update sales count
   const courseIndex = allCourses.value.findIndex(c => c.id === selectedCourse.value.id);
   if (courseIndex !== -1) {
-    allCourses.value[courseIndex].salesCount += 1;
+    allCourses.value[courseIndex].sales = (allCourses.value[courseIndex].sales || 0) + 1;
   }
   
   // Update wallet
-  walletStore.addTransaction('purchase', selectedCourse.value.price, `Mua khóa học: ${selectedCourse.value.title}`);
+  walletStore.addTransaction('purchase', totalPrice, `Mua khóa học: ${selectedCourse.value.title}`);
   
-  alert('Mua khóa học thành công!');
+  // Show success message
+  showSuccess('Khóa học đã được thêm vào danh sách khóa học của bạn!', 'Mua khóa học thành công!');
+  
+  // Close modal and reset selected course
   showPurchaseModal.value = false;
+  console.log('Purchase completed successfully');
 };
+
+// Format currency to Vietnamese format
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(value);
+};
+
+// Initialize SweetAlert when component is mounted
+onMounted(() => {
+  initSweetAlert();
+});
 </script>

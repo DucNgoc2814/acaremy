@@ -238,8 +238,9 @@
             Hủy
           </button>
           <button 
-            @click="purchaseCourse" 
-            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            @click="confirmPurchase" 
+            type="button"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
             :disabled="walletBalance < selectedCourse.price * 1.1"
             :class="{'opacity-50 cursor-not-allowed': walletBalance < selectedCourse.price * 1.1}"
           >
@@ -289,10 +290,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useWalletStore } from '../stores/wallet';
 import CourseCard from '../components/CourseCard.vue';
 import coursesData from '../data/courses.js';
+import { showSuccess, showError, initSweetAlert } from '../utils/alert';
 
 const walletStore = useWalletStore();
 const walletBalance = computed(() => walletStore.balance);
@@ -311,7 +313,8 @@ const depositAmount = ref(100000);
 const purchasedCourseIds = ref([]);
 
 const filteredCourses = computed(() => {
-  let result = allCourses.value;
+  // First filter out purchased courses
+  let result = allCourses.value.filter(course => !purchasedCourseIds.value.includes(course.id));
   
   // Apply search filter
   if (searchQuery.value) {
@@ -347,8 +350,12 @@ const handleBuyNow = (course) => {
 };
 
 const confirmPurchase = () => {
-  if (walletBalance.value < selectedCourse.value.price) {
-    alert('Số dư không đủ để mua khóa học này!');
+  if (!selectedCourse.value) return;
+  
+  const totalPrice = Math.round(selectedCourse.value.price * 1.1); // Including VAT, rounded to avoid floating point issues
+  
+  if (walletBalance.value < totalPrice) {
+    showError('Số dư không đủ để mua khóa học này!', 'Không đủ số dư');
     return;
   }
   
@@ -358,14 +365,21 @@ const confirmPurchase = () => {
   // Update sales count
   const courseIndex = allCourses.value.findIndex(c => c.id === selectedCourse.value.id);
   if (courseIndex !== -1) {
-    allCourses.value[courseIndex].salesCount += 1;
+    allCourses.value[courseIndex].salesCount = (allCourses.value[courseIndex].salesCount || 0) + 1;
   }
   
   // Update wallet
-  walletStore.addTransaction('purchase', selectedCourse.value.price, `Mua khóa học: ${selectedCourse.value.title}`);
+  walletStore.addTransaction('purchase', totalPrice, `Mua khóa học: ${selectedCourse.value.title}`);
   
-  alert('Mua khóa học thành công!');
+  // Show beautiful success message with SweetAlert
+  showSuccess(
+    'Khóa học đã được thêm vào danh sách khóa học của bạn!',
+    'Mua khóa học thành công!'
+  );
+  
+  // Close modal and reset selected course
   showPurchaseModal.value = false;
+  console.log('Purchase completed successfully');
 };
 
 const handleDeposit = () => {
@@ -391,4 +405,9 @@ const formatCurrency = (value) => {
     maximumFractionDigits: 0
   }).format(value);
 };
+
+// Initialize SweetAlert when component is mounted
+onMounted(() => {
+  initSweetAlert();
+});
 </script>

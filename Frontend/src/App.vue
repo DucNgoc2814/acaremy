@@ -1,5 +1,7 @@
 <template>
   <div class="min-h-screen flex flex-col">
+    <!-- Toast Container for notifications -->
+    <ToastContainer />
     <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
       <nav class="container py-3 flex items-center justify-between">
         <div class="flex items-center space-x-1">
@@ -209,7 +211,9 @@
     </header>
 
     <main class="flex-grow">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <component :is="Component" :key="$route.fullPath" />
+      </router-view>
     </main>
 
     <footer class="bg-gray-800 text-white py-6">
@@ -282,6 +286,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useWalletStore } from './stores/wallet';
+import ToastContainer from './components/ToastContainer.vue';
 import { useCartStore } from './stores/cart';
 import { useRoute } from 'vue-router';
 
@@ -341,14 +346,15 @@ const logout = () => {
 <style>
 .container {
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
+
+/* Removed page transitions to fix blank screen issue */
 
 @media (min-width: 640px) {
   .container {
+    padding: 0 1.5rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
