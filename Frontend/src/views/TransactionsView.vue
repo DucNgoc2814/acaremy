@@ -43,6 +43,13 @@
           >
             Mua khóa học
           </button>
+          <button 
+            @click="activeFilter = 'product_purchase'" 
+            class="px-4 py-2 rounded-md font-medium"
+            :class="activeFilter === 'product_purchase' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'"
+          >
+            Mua sản phẩm
+          </button>
         </div>
       </div>
       
@@ -78,9 +85,17 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span 
                     class="px-2 py-1 text-xs font-medium rounded-full"
-                    :class="transaction.type === 'deposit' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'"
+                    :class="{
+                      'bg-green-100 text-green-800': transaction.type === 'deposit',
+                      'bg-blue-100 text-blue-800': transaction.type === 'purchase',
+                      'bg-purple-100 text-purple-800': transaction.type === 'product_purchase'
+                    }"
                   >
-                    {{ transaction.type === 'deposit' ? 'Nạp tiền' : 'Mua khóa học' }}
+                    {{ 
+                      transaction.type === 'deposit' ? 'Nạp tiền' : 
+                      transaction.type === 'purchase' ? 'Mua khóa học' : 
+                      'Mua sản phẩm' 
+                    }}
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

@@ -23,6 +23,9 @@
           <svg v-else-if="type === 'cart'" class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
           </svg>
+          <svg v-else-if="type === 'note'" class="h-5 w-5 text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+          </svg>
           <svg v-else class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
           </svg>
@@ -64,7 +67,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'info',
-    validator: (value) => ['success', 'error', 'warning', 'info', 'cart'].includes(value)
+    validator: (value) => ['success', 'error', 'warning', 'info', 'cart', 'note'].includes(value)
   },
   title: {
     type: String,
@@ -101,6 +104,8 @@ const toastClasses = computed(() => {
       return 'bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800';
     case 'cart':
       return 'bg-blue-50 border-l-4 border-blue-400 text-blue-800';
+    case 'note':
+      return 'bg-purple-50 border-l-4 border-purple-400 text-purple-800';
     default:
       return 'bg-blue-50 border-l-4 border-blue-400 text-blue-800';
   }

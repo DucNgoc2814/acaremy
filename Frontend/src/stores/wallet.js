@@ -37,7 +37,7 @@ export const useWalletStore = defineStore('wallet', () => {
     
     if (type === 'deposit') {
       balance.value += amount
-    } else if (type === 'purchase') {
+    } else if (type === 'purchase' || type === 'product_purchase') {
       balance.value -= amount
     }
     

@@ -15,7 +15,7 @@
       <div class="flex-grow">
         <div class="flex items-start justify-between mb-1">
           <h3 class="text-sm font-bold text-gray-900 hover:text-indigo-600 transition-colors line-clamp-1">
-            <router-link :to="`/courses/${course.id}`">{{ course.title }}</router-link>
+            <router-link :to="`/courses/${course.slug}`">{{ course.title }}</router-link>
           </h3>
         </div>
         
@@ -58,29 +58,19 @@
         </div>
       </div>
       
-      <!-- Improved Buy Button -->
-      <button 
-        @click="handleBuyNow" 
-        type="button"
-        class="mt-1.5 w-full py-1.5 rounded-md text-xs font-medium transition-all duration-300 flex items-center justify-center cursor-pointer"
-        :class="isPurchased ? 
-          'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm' : 
-          'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:from-indigo-600 hover:to-indigo-700 shadow-sm'"
-        :disabled="isPurchased"
+      <!-- View Details Button -->
+      <router-link 
+        :to="`/courses/${course.slug}`" 
+        class="mt-1.5 w-full py-1.5 rounded-md text-xs font-medium transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-sm"
       >
-        <span v-if="isPurchased" class="flex items-center">
+        <span class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
-          Đã mua
+          Xem chi tiết
         </span>
-        <span v-else class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          Mua ngay
-        </span>
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -99,18 +89,13 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['buy-now']);
+// No emits needed for router-link
 
 const isPurchased = computed(() => 
   props.purchasedIds.includes(props.course.id)
 );
 
-// Handle buy now button click
-function handleBuyNow() {
-  if (!isPurchased.value) {
-    emit('buy-now', props.course);
-  }
-}
+// No longer needed since we're using router-link
 
 const formatCurrency = (value) => {
   return new Intl.NumberFormat('vi-VN', {

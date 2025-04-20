@@ -64,19 +64,21 @@
         </div>
       </div>
       
-      <!-- Buy Button -->
-      <button 
-        @click="handleAddToCart" 
-        type="button"
-        class="mt-1.5 w-full py-1.5 rounded-md text-xs font-medium transition-all duration-300 flex items-center justify-center cursor-pointer bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-sm"
-      >
-        <span class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          Thêm vào giỏ
-        </span>
-      </button>
+      <!-- View Details Button -->
+      <div class="flex gap-2 mt-1.5">
+        <router-link 
+          :to="`/products/${product.id}`" 
+          class="flex-1 py-1.5 rounded-md text-xs font-medium transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-sm"
+        >
+          <span class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            Xem chi tiết
+          </span>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -108,6 +110,17 @@ const formatCurrency = (value) => {
 </script>
 
 <style>
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;

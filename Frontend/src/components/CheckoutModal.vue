@@ -52,12 +52,12 @@
         </div>
         
         <div class="flex justify-end gap-3">
-          <button @click="$emit('close')" class="btn btn-secondary">
+          <button @click="$emit('close')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
             Hủy
           </button>
           <button 
             @click="$emit('confirm')" 
-            class="btn btn-primary"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             :disabled="!isBalanceSufficient"
           >
             Thanh toán

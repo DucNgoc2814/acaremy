@@ -3,6 +3,10 @@ import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    // Luôn cuộn lên đầu trang khi chuyển trang
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -15,7 +19,7 @@ const router = createRouter({
       component: () => import('../views/CoursesView.vue')
     },
     {
-      path: '/courses/:id',
+      path: '/courses/:slug',
       name: 'course-detail',
       component: () => import('../views/CourseDetailView.vue')
     },
@@ -53,6 +57,11 @@ const router = createRouter({
       path: '/orders',
       name: 'orders',
       component: () => import('../views/OrdersView.vue')
+    },
+    {
+      path: '/courses/:slug/learn',
+      name: 'course-learn',
+      component: () => import('../views/CourseLearnView.vue')
     }
   ]
 })

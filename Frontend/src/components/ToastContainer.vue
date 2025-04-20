@@ -22,10 +22,11 @@
 <script setup>
 import { onMounted } from 'vue';
 import ToastNotification from './ToastNotification.vue';
-import toastService from '../services/toastService';
+import { useToastStore } from '../stores/toast';
 
-const toasts = toastService.toasts;
-const removeToast = toastService.removeToast;
+const toastStore = useToastStore();
+const toasts = toastStore.toasts;
+const removeToast = toastStore.removeToast;
 </script>
 
 <style scoped>

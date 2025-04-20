@@ -194,16 +194,7 @@
       </div>
     </div>
     
-    <!-- Add to Cart Success Toast -->
-    <div 
-      v-if="showAddedToast" 
-      class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg flex items-center z-50"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
-      <span>Đã thêm vào giỏ hàng!</span>
-    </div>
+    <!-- Toast notifications are now handled by ToastContainer -->
   </div>
 </template>
 
@@ -211,16 +202,17 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCartStore } from '../stores/cart';
+import { useToastStore } from '../stores/toast';
 import ProductCard from '../components/ProductCard.vue';
 import productsData from '../data/products';
 
 const route = useRoute();
 const router = useRouter();
 const cartStore = useCartStore();
+const toastStore = useToastStore();
 
 const product = ref(null);
 const quantity = ref(1);
-const showAddedToast = ref(false);
 
 // Get product by ID from route params
 onMounted(() => {
@@ -260,21 +252,15 @@ function addToCart() {
     quantity: quantity.value
   });
   
-  // Show toast
-  showAddedToast.value = true;
-  setTimeout(() => {
-    showAddedToast.value = false;
-  }, 3000);
+  // Show toast notification using toast store
+  toastStore.cartNotification(`Đã thêm ${quantity.value} ${product.value.title} vào giỏ hàng`);
 }
 
 function addRelatedToCart(relatedProduct) {
   cartStore.addToCart(relatedProduct);
   
-  // Show toast
-  showAddedToast.value = true;
-  setTimeout(() => {
-    showAddedToast.value = false;
-  }, 3000);
+  // Show toast notification using toast store
+  toastStore.cartNotification(`Đã thêm ${relatedProduct.title} vào giỏ hàng`);
 }
 
 function buyNow() {
@@ -309,5 +295,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 </style>
